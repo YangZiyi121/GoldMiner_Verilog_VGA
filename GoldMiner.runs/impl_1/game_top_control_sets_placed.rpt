@@ -1,0 +1,88 @@
+Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2020.2 (lin64) Build 3064766 Wed Nov 18 09:12:47 MST 2020
+| Date         : Tue Nov  9 16:02:00 2021
+| Host         : rsws13.kaust.edu.sa running 64-bit Ubuntu 18.04.6 LTS
+| Command      : report_control_sets -verbose -file game_top_control_sets_placed.rpt
+| Design       : game_top
+| Device       : xc7a100t
+-------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    10 |
+|    Minimum number of control sets                        |    10 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    38 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    10 |
+| >= 0 to < 4        |     0 |
+| >= 4 to < 6        |     0 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     0 |
+| >= 10 to < 12      |     5 |
+| >= 12 to < 14      |     1 |
+| >= 14 to < 16      |     3 |
+| >= 16              |     1 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |              25 |           14 |
+| No           | No                    | Yes                    |               0 |            0 |
+| No           | Yes                   | No                     |              36 |           12 |
+| Yes          | No                    | No                     |              11 |            5 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |              58 |           32 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-----------------------------+------------------------------------+------------------+------------------+----------------+--------------+
+|         Clock Signal        |            Enable Signal           | Set/Reset Signal | Slice Load Count | Bel Load Count | Bels / Slice |
++-----------------------------+------------------------------------+------------------+------------------+----------------+--------------+
+|  pixClkIns/inst/clk_out1    | vgainst/vcount[9]_i_1_n_0          | rst_IBUF         |                3 |             10 |         3.33 |
+|  moveHook/pixclk_60_reg_n_0 |                                    |                  |                8 |             11 |         1.38 |
+|  moveHook/pixclk_60_reg_n_0 | moveHook/blkpos_x[10]_i_1_n_0      |                  |                5 |             11 |         2.20 |
+|  pixClkIns/inst/clk_out1    | vgainst/E[0]                       | rst_IBUF         |                6 |             11 |         1.83 |
+|  pixClkIns/inst/clk_out1    | gold_blk/addr1[10]_i_1_n_0         | rst_IBUF         |                5 |             11 |         2.20 |
+|  pixClkIns/inst/clk_out1    | vgainst/curr_y_counter[9]_i_1_n_0  | rst_IBUF         |               10 |             12 |         1.20 |
+|  pixClkIns/inst/clk_out1    |                                    |                  |                6 |             14 |         2.33 |
+|  pixClkIns/inst/clk_out1    | vgainst/curr_x_counter[10]_i_1_n_0 | rst_IBUF         |                8 |             14 |         1.75 |
+|  pixClkIns/inst/clk_out1    |                                    | rst_IBUF         |                6 |             15 |         2.50 |
+|  pixClkIns/inst/clk_out1    |                                    | moveHook/clear   |                6 |             21 |         3.50 |
++-----------------------------+------------------------------------+------------------+------------------+----------------+--------------+
+
+
