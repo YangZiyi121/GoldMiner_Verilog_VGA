@@ -21,7 +21,7 @@
 
 
 module hook_moving(
-    input clk,
+    input pixclk_60,
     output [10:0] blkpos_x_out,
     output [9:0] blkpos_y_out
     );
@@ -29,20 +29,6 @@ module hook_moving(
     assign blkpos_x_out = blkpos_x;
     assign blkpos_y_out = blkpos_y; 
      
-    //Divide to 60HZ clk
-    reg pixclk_60 = 1'b0;
-    reg [20:0] clk_counter = 21'd0;
-    
-    always @(posedge clk)
-    begin
-    clk_counter = clk_counter + 21'd1;
-    if (clk_counter == 21'd695500)
-        begin
-        clk_counter = 21'd0;
-        pixclk_60 =  ~pixclk_60;
-        end
-    end
-    
     // Move between x->[10,1269] and y -> [10.789]
     // Circle Center is 625, 11
     // Radius is 75, so x moves [550,700]
