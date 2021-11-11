@@ -107,14 +107,13 @@ module drawcon(
    reg signed [15:0] x_2, y_2,x_0,y_0;
    always @*
    begin
-   x_2 = $signed({1'b0,blkpos_x});
+   x_2 = $signed({1'b0,blkpos_x+15'd16});
    y_2 = $signed({1'b0,blkpos_y});
    x_0 = $signed({1'b0,draw_x});
    y_0 = $signed({1'b0,draw_y});
-   if ((x_0>x_2 & x_0< x_1) | (x_0<x_2 & x_0> x_1))
+   if (x_0>x_2 & x_0< x_1 & y_0 <= y_2) // In the left of miner
    begin
-    if(((y_0-y_1)*(x_2-x_1)) == ((x_0 - x_1)*(y_2-y_1)))
-//      if( (k*(d_x - m_x)+m_y) == d_y )
+    if( ( (y_0-y_1)*(x_2-x_1) - (x_0 - x_1)*(y_2-y_1) )<=0  &  ( (y_0-y_1)*(x_2-x_1) - (x_0 - x_1-r)*(y_2-y_1) )>=0) // Between two lines
        begin
             rope_r = 4'b0000;
             rope_g = 4'b1111;
@@ -126,8 +125,23 @@ module drawcon(
             rope_g = 4'b0000;
             rope_b = 4'b0000;
         end
-    end
-   else 
+   end
+   else if ((x_0<x_2 & x_0> x_1 & y_0 <= y_2)) // In the right of miner
+   begin
+    if( ( (y_0-y_1)*(x_2-x_1) - (x_0 - x_1)*(y_2-y_1) )>=0  &  ( (y_0-y_1)*(x_2-x_1) - (x_0 - x_1 + r)*(y_2-y_1) )<=0) // Between two lines
+       begin
+            rope_r = 4'b0000;
+            rope_g = 4'b1111;
+            rope_b = 4'b1111;
+       end
+       else
+        begin
+            rope_r = 4'b0000;
+            rope_g = 4'b0000;
+            rope_b = 4'b0000;
+        end
+   end
+   else // Outside the region
         begin
             rope_r = 4'b0000;
             rope_g = 4'b0000;
