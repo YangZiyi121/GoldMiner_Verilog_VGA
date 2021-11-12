@@ -21,6 +21,7 @@
 
 
 module hook_moving(
+    input [1:0] state,
     input pixclk_60,
     output [10:0] blkpos_x_out,
     output [9:0] blkpos_y_out
@@ -34,6 +35,7 @@ module hook_moving(
     // Radius is 75, so x moves [550,700]
     parameter center_x = 11'd635, center_y = 10'd167;
     parameter x_left = 11'd560, x_right = 10'd710;
+    parameter waving = 2'b00, stretching = 2'b01, hitting = 2'b10, missing = 2'b11;
     parameter y_bottom = 10'd242;
     reg [10:0] blkpos_x = center_x;
     reg [9:0] blkpos_y = center_y;
@@ -41,9 +43,16 @@ module hook_moving(
     reg signed [29:0] distance = 30'b0;
     reg [10:0]radius = 75;
     
-    
+    parameter x_1 = 15'd635, y_1 = 15'd167; //position of miner, 15 bits to prevent overflow of ((y_0-y_1)*(x_2-x_1)) == ((x_0 - x_1)*(y_2-y_1))
+    reg [15:0] x_2, y_2,x_0, y_0; //Position for blok
+   
     always @(posedge pixclk_60)
     begin
+    //Waving State
+    if(state == waving)
+    begin
+        x_2 <= $signed({1'b0,blkpos_x});
+        y_2 <= $signed({1'b0,blkpos_y}); // Save current block position as signed
         // U-turn after reaching border
         if (blkpos_x <= x_left)
         begin
@@ -128,6 +137,149 @@ module hook_moving(
                     blkpos_x = blkpos_x - 1;
             end
         end 
+    end // End state case
+    
+    //Stretching State
+    else if(state == stretching)
+    begin
+            x_0 = {4'b0000,blkpos_x};
+            y_0 = {5'b00000,blkpos_y}; // Save current block position as signed
+            //Sector 1
+            if (blkpos_x <= center_x && ((center_x - blkpos_x) >= (blkpos_y - center_y)) )
+            begin
+                x_0  = x_0 - 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  >= 0  )
+                begin
+                    y_0 = y_0 + 1;
+                end
+            end
+            //Sector 2
+            else if (blkpos_x < center_x && ((center_x - blkpos_x) <= (blkpos_y - center_y)) )
+            begin
+                y_0 = y_0 + 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  <= 0  )
+                begin
+                    x_0 = x_0 - 1;
+                end
+            end
+            //Sector 3
+            else if (blkpos_x >= center_x && ((blkpos_x - center_x ) <= (blkpos_y - center_y)) )
+            begin
+                y_0 = y_0 + 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  >= 0  )
+                begin
+                    x_0 = x_0 + 1;
+                end
+            end
+            //Sector 4
+            else if (blkpos_x >= center_x && ((blkpos_x - center_x ) > (blkpos_y - center_y)) )
+            begin
+            begin
+                x_0  = x_0 + 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  <= 0  )
+                begin
+                    y_0 = y_0 + 1;
+                end
+            end
+            end
+            blkpos_x =x_0;
+            blkpos_y =y_0;  
+    end
+    
+    // hitting State
+    else if(state == hitting)
+    begin
+            x_0 = {4'b0000,blkpos_x};
+            y_0 = {5'b00000,blkpos_y}; // Save current block position as signed
+            //Sector 1
+            if (blkpos_x <= center_x && ((center_x - blkpos_x) >= (blkpos_y - center_y)) )
+            begin
+                x_0  = x_0 + 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  <= 0  )
+                begin
+                    y_0 = y_0 - 1;
+                end
+            end
+            //Sector 2
+            else if (blkpos_x < center_x && ((center_x - blkpos_x) <= (blkpos_y - center_y)) )
+            begin
+                y_0 = y_0 - 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  >= 0  )
+                begin
+                    x_0 = x_0 + 1;
+                end
+            end
+            //Sector 3
+            else if (blkpos_x >= center_x && ((blkpos_x - center_x ) <= (blkpos_y - center_y)) )
+            begin
+                y_0 = y_0 - 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  <= 0  )
+                begin
+                    x_0 = x_0 - 1;
+                end
+            end
+            //Sector 4
+            else if (blkpos_x >= center_x && ((blkpos_x - center_x ) > (blkpos_y - center_y)) )
+            begin
+            begin
+                x_0  = x_0 - 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  >= 0  )
+                begin
+                    y_0 = y_0 - 1;
+                end
+            end
+            end
+            blkpos_x =x_0;
+            blkpos_y =y_0; 
+    end
+    
+    // empty State
+    else
+    begin
+            x_0 = {4'b0000,blkpos_x};
+            y_0 = {5'b00000,blkpos_y}; // Save current block position as signed
+            //Sector 1
+            if (blkpos_x <= center_x && ((center_x - blkpos_x) >= (blkpos_y - center_y)) )
+            begin
+                x_0  = x_0 + 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  <= 0  )
+                begin
+                    y_0 = y_0 - 1;
+                end
+            end
+            //Sector 2
+            else if (blkpos_x < center_x && ((center_x - blkpos_x) <= (blkpos_y - center_y)) )
+            begin
+                y_0 = y_0 - 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  >= 0  )
+                begin
+                    x_0 = x_0 + 1;
+                end
+            end
+            //Sector 3
+            else if (blkpos_x >= center_x && ((blkpos_x - center_x ) <= (blkpos_y - center_y)) )
+            begin
+                y_0 = y_0 - 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  <= 0  )
+                begin
+                    x_0 = x_0 - 1;
+                end
+            end
+            //Sector 4
+            else if (blkpos_x >= center_x && ((blkpos_x - center_x ) > (blkpos_y - center_y)) )
+            begin
+            begin
+                x_0  = x_0 - 1;
+                if ( ($signed(y_0) -$signed(y_1))*($signed(x_2)-$signed(x_1)) - ($signed(x_0) - $signed(x_1))*($signed(y_2)-$signed(y_1))  >= 0  )
+                begin
+                    y_0 = y_0 - 1;
+                end
+            end
+            end
+            blkpos_x =x_0;
+            blkpos_y =y_0; 
+    end
+        
     end
     
 endmodule

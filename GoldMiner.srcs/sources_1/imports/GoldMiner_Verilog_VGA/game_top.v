@@ -51,7 +51,6 @@ module game_top(
     /*Divide to 60HZ clk*/
     reg pixclk_60 = 1'b0;
     reg [20:0] clk_counter = 21'd0;
-    
     always @(posedge clk)
     begin
     clk_counter = clk_counter + 21'd1;
@@ -126,7 +125,7 @@ module game_top(
     .y9(y9), .y8(y8), .y7(y7), .y6(y6), .y5(y5), .y4(y4), .y3(y3), .y2(y2), .y1(y1), .y0(y0));
     
     /* get hook moving positions*/
-    hook_moving moveHook(.pixclk_60(pixclk_60), .blkpos_x_out(blk_out_x), .blkpos_y_out(blk_out_y));
+    hook_moving moveHook(.state(state), .pixclk_60(pixclk_60), .blkpos_x_out(blk_out_x), .blkpos_y_out(blk_out_y));
     
     /* drawcon instance*/ 
     //for testing, comment W_rom_data , use the second row   
