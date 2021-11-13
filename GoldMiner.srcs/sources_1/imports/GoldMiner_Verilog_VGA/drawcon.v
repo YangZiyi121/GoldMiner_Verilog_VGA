@@ -21,6 +21,8 @@
 
 
 module drawcon(
+    input [10:0] hitted_x,
+    input [9:0] hitted_y,
     input [7:0] W_rom_data, //for testing, comment this statement
     input [7:0] W_rom_data_gold0, W_rom_data_gold1,
     input [10:0] draw_x,
@@ -33,10 +35,9 @@ module drawcon(
     output reg [3:0] draw_g,
     output reg [3:0] draw_b
     );
-    
     reg [3:0] bg_r, bg_g, bg_b;
     reg [3:0] blk_r, blk_g, blk_b;
-    reg [3:0] gold_r, gold_g, gold_b;
+    reg [3:0] gold_r , gold_g , gold_b;
     reg [3:0] rope_r, rope_g, rope_b;
     //Draw border and background
     always @ *
@@ -77,26 +78,25 @@ module drawcon(
     end
     
    //Draw gold
-   always @*begin
+   always @*begin 
    if (draw_x >= x0 & draw_x<= x0 + 11'd39 & draw_y>=y0 & draw_y<= y0 + 10'd39)
-       begin
-           gold_r = W_rom_data_gold0[7:5]*2;
-           gold_g = W_rom_data_gold0[4:2]*2;
-           gold_b = W_rom_data_gold0[1:0]*4;
-       end
-   else if (draw_x >= x1 & draw_x <= x1 + 11'd39 & draw_y >= y1 & draw_y<= y1 + 10'd39) 
-        begin
-           gold_r = W_rom_data_gold1[7:5]*2;
-           gold_g = W_rom_data_gold1[4:2]*2;
-           gold_b = W_rom_data_gold1[1:0]*4;
-       end     
-   else 
-        begin
+         begin
+             gold_r = W_rom_data_gold0[7:5]*2;
+             gold_g = W_rom_data_gold0[4:2]*2;
+             gold_b = W_rom_data_gold0[1:0]*4;
+         end
+   else if (draw_x >= x1 & draw_x<= x1 + 11'd39 & draw_y>=y1 & draw_y<= y1 + 10'd39)
+            begin
+               gold_r = W_rom_data_gold1[7:5]*2;
+               gold_g = W_rom_data_gold1[4:2]*2;
+               gold_b = W_rom_data_gold1[1:0]*4;
+            end
+   else begin
             gold_r = 4'b0000;
             gold_g = 4'b0000;
             gold_b = 4'b0000;
-        end
-    end
+        end     
+   end  
     
     //Draw Rope
     // parameter signed x_left = 10'd560, x_right = 10'd710;
