@@ -24,7 +24,7 @@ module drawcon(
     input [10:0] hitted_x,
     input [9:0] hitted_y,
     input [7:0] W_rom_data, //for testing, comment this statement
-    input [7:0] W_rom_data_gold0, W_rom_data_gold1,
+    input [7:0] W_rom_data_gold0, W_rom_data_gold1, W_rom_data_diamond0, W_rom_data_stone0,
     input [10:0] draw_x,
     input [9:0] draw_y,
     input [10:0] blkpos_x,
@@ -79,18 +79,30 @@ module drawcon(
     
    //Draw gold
    always @*begin 
-   if (draw_x >= x0 & draw_x<= x0 + 11'd39 & draw_y>=y0 & draw_y<= y0 + 10'd39)
+   if (draw_x >= x0 & draw_x<= x0 + 11'd59 & draw_y>=y0 & draw_y<= y0 + 10'd59)
          begin
              gold_r = W_rom_data_gold0[7:5]*2;
              gold_g = W_rom_data_gold0[4:2]*2;
              gold_b = W_rom_data_gold0[1:0]*4;
          end
-   else if (draw_x >= x1 & draw_x<= x1 + 11'd39 & draw_y>=y1 & draw_y<= y1 + 10'd39)
+   else if (draw_x >= x1 & draw_x<= x1 + 11'd59 & draw_y>=y1 & draw_y<= y1 + 10'd59)
             begin
                gold_r = W_rom_data_gold1[7:5]*2;
                gold_g = W_rom_data_gold1[4:2]*2;
                gold_b = W_rom_data_gold1[1:0]*4;
             end
+   else if (draw_x >= x2 & draw_x<= x2 + 11'd39 & draw_y>=y2 & draw_y<= y2 + 10'd39)
+            begin
+               gold_r = W_rom_data_diamond0[7:5]*2;
+               gold_g = W_rom_data_diamond0[4:2]*2;
+               gold_b = W_rom_data_diamond0[1:0]*4;
+            end  
+   else if (draw_x >= x3 & draw_x<= x3 + 11'd79 & draw_y>=y3 & draw_y<= y3 + 10'd79)
+            begin
+               gold_r = W_rom_data_stone0[7:5]*2;
+               gold_g = W_rom_data_stone0[4:2]*2;
+               gold_b = W_rom_data_stone0[1:0]*4;
+            end                 
    else begin
             gold_r = 4'b0000;
             gold_g = 4'b0000;
