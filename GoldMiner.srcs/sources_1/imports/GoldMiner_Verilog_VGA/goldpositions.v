@@ -114,7 +114,7 @@ module goldpositions(
      
  
     always @(posedge clk) begin
-    if (rst==1)   addr0 <= 11'd0;
+    if (rst==1 | (curr_x == x0 & curr_y == y0))   addr0 <= 11'd0;
     else begin
         if (addr0 == 11'd1599)  addr0 = 11'd0;
         else if(curr_x >= x0 & curr_x <= x0 + 39 & curr_y >= y0 & curr_y <= y0 + 39)
@@ -123,7 +123,7 @@ module goldpositions(
     end
     
     always @(posedge clk) begin
-    if (rst==1)   addr1 <= 11'd0;
+    if (rst==1|(curr_x == x1 & curr_y == y1))   addr1 <= 11'd0;
     else begin
         if (addr1 == 11'd1599)  addr1 = 11'd0;
         else if(curr_x >= x1 & curr_x <= x1 + 39 & curr_y >= y1 & curr_y <= y1 + 39)
