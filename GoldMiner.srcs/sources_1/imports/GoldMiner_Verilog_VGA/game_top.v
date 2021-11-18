@@ -46,8 +46,9 @@ module game_top(
     wire [7:0] W_rom_data, W_rom_data_gold0, W_rom_data_gold1, W_rom_data_diamond0, W_rom_data_stone0;
     wire [10:0] x9,x8,x7,x6,x5,x4,x3,x2,x1,x0;
     wire [9:0] y9,y8,y7,y6,y5,y4,y3,y2,y1,y0;
-    // scores 
+    // LED: scores and time
     reg [7:0] score = 8'd0;
+    reg [7:0] totaltime = 8'd10;
     //regs for hitting logic, updated one time during hitting, and keep the same between two hittings
     reg [3:0] hitted_gold;
     
@@ -57,7 +58,7 @@ module game_top(
     always @(posedge clk)
     begin
     clk_counter = clk_counter + 21'd1;
-    if (clk_counter == 21'd695500)
+    if (clk_counter == 21'd600000) //
         begin
         clk_counter = 21'd0;
         pixclk_60 =  ~pixclk_60;
@@ -84,6 +85,7 @@ module game_top(
         if (rst)
         begin
             score <= 8'd0;
+            totaltime <= 8'd10;
         end
         next_state = state;
         case(state)
@@ -181,5 +183,5 @@ module game_top(
 //        .y9(y9), .y8(y8), .y7(y7), .y6(y6), .y5(y5), .y4(y4), .y3(y3), .y2(y2), .y1(y1), .y0(y0));
     
     /* LED*/
-    score_leds score_leds_0(.clk(clk), .rst(rst), .score(score), .a(a), .b(b), .c(c), .d(d), .e(e), .f(f), .g(g),.an(an));
+    score_leds score_leds_0(.clk(clk),.pixclk_60(pixclk_60), .totaltime(totaltime), .rst(rst), .score(score), .a(a), .b(b), .c(c), .d(d), .e(e), .f(f), .g(g),.an(an));
 endmodule
