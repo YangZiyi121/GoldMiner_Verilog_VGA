@@ -26,7 +26,9 @@ module game_top(
     output  [3:0] pix_g,
     output  [3:0] pix_b,
     output hsync,
-    output vsync
+    output vsync,
+    output a, b, c, d, e, f, g,
+    output [7:0] an
     );
     wire [10:0]curr_x;
     wire [9:0]curr_y;
@@ -44,7 +46,8 @@ module game_top(
     wire [7:0] W_rom_data, W_rom_data_gold0, W_rom_data_gold1, W_rom_data_diamond0, W_rom_data_stone0;
     wire [10:0] x9,x8,x7,x6,x5,x4,x3,x2,x1,x0;
     wire [9:0] y9,y8,y7,y6,y5,y4,y3,y2,y1,y0;
-    
+    // scores 
+    reg [7:0] score = 8'd0;
     //regs for hitting logic, updated one time during hitting, and keep the same between two hittings
     reg [3:0] hitted_gold;
     
@@ -69,13 +72,19 @@ module game_top(
     always @(posedge pixclk_60) // Update current state
     begin
         if (rst)
+        begin
             state <= waving;
+        end
         else
             state <= next_state;
     end
     
     always @(posedge pixclk_60) // Trigger next state
     begin
+        if (rst)
+        begin
+            score <= 8'd0;
+        end
         next_state = state;
         case(state)
         waving: if(button == 1) next_state = stretching;
@@ -90,6 +99,7 @@ module game_top(
                begin //hit the first gold
                     next_state = hitting;
                     hitted_gold = 4'b0000;
+                    score = score + 8'd4;
                end
                else if ((blk_out_x > x1) & (blk_out_x <= x1 + 11'd59) & (blk_out_y > y1) & (blk_out_y < y1 + 10'd59)|
                       ((blk_out_x + 11'd32 >= x1) & (blk_out_x + 11'd32 < x1 + 11'd59)  & (blk_out_y >= y1) & (blk_out_y < y1 + 10'd59))|
@@ -98,22 +108,25 @@ module game_top(
                begin //hit the second gold
                     next_state = hitting;
                     hitted_gold = 4'b0001;
+                    score = score + 8'd4;
                end
                else if ((blk_out_x > x2) & (blk_out_x <= x2 + 11'd39) & (blk_out_y > y2) & (blk_out_y < y2 + 10'd39)|
                       ((blk_out_x + 11'd32 >= x2) & (blk_out_x + 11'd32 < x2 + 11'd39)  & (blk_out_y >= y2) & (blk_out_y < y2 + 10'd39))|
                       ((blk_out_x + 11'd32 >= x2) & (blk_out_x + 11'd32 < x2 + 11'd39) & (blk_out_y  + 11'd32 >= y2) & (blk_out_y  + 11'd32 < y2 + 10'd39))|
                       ((blk_out_x > x2) & (blk_out_x <= x2 + 11'd39) & (blk_out_y  + 11'd32 >= y2) & (blk_out_y  + 11'd32 < y2 + 10'd39)))
-               begin //hit the second gold
+               begin //hit the third gold
                     next_state = hitting;
                     hitted_gold = 4'b0010;
+                    score =score + 8'd4;
                end
                else if ((blk_out_x > x3) & (blk_out_x <= x3 + 11'd79) & (blk_out_y > y3) & (blk_out_y < y3 + 10'd79)|
                       ((blk_out_x + 11'd32 >= x3) & (blk_out_x + 11'd32 < x3 + 11'd79)  & (blk_out_y >= y3) & (blk_out_y < y3 + 10'd79))|
                       ((blk_out_x + 11'd32 >= x3) & (blk_out_x + 11'd32 < x3 + 11'd79) & (blk_out_y  + 11'd32 >= y3) & (blk_out_y  + 11'd32 < y3 + 10'd79))|
                       ((blk_out_x > x3) & (blk_out_x <= x3 + 11'd79) & (blk_out_y  + 11'd32 >= y3) & (blk_out_y  + 11'd32 < y3 + 10'd79)))
-               begin //hit the second gold
+               begin //hit the forth gold
                     next_state = hitting;
                     hitted_gold = 4'b0011;
+                    score =score + 8'd4;
                end
         hitting:
                 if(blk_out_y <=  hookThresholdHeight & blk_out_x >= hookThresholdLeft & blk_out_x <= hookThresholdRight)
@@ -167,6 +180,6 @@ module game_top(
 //        .x9(x9), .x8(x8), .x7(x7), .x6(x6), .x5(x5), .x4(x4), .x3(x3), .x2(x2), .x1(x1), .x0(x0),
 //        .y9(y9), .y8(y8), .y7(y7), .y6(y6), .y5(y5), .y4(y4), .y3(y3), .y2(y2), .y1(y1), .y0(y0));
     
-    
-     
+    /* LED*/
+    score_leds score_leds_0(.clk(clk), .rst(rst), .score(score), .a(a), .b(b), .c(c), .d(d), .e(e), .f(f), .g(g),.an(an));
 endmodule
