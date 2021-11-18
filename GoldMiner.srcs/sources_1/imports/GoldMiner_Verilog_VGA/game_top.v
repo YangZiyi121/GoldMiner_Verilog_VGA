@@ -48,7 +48,6 @@ module game_top(
     wire [9:0] y9,y8,y7,y6,y5,y4,y3,y2,y1,y0;
     // LED: scores and time
     reg [7:0] score = 8'd0;
-    reg [7:0] totaltime = 8'd10;
     //regs for hitting logic, updated one time during hitting, and keep the same between two hittings
     reg [3:0] hitted_gold;
     
@@ -85,7 +84,6 @@ module game_top(
         if (rst)
         begin
             score <= 8'd0;
-            totaltime <= 8'd10;
         end
         next_state = state;
         case(state)
@@ -181,7 +179,33 @@ module game_top(
 //     .draw_r(pix_r_or), .draw_g(pix_g_or), .draw_b(pix_b_or),
 //        .x9(x9), .x8(x8), .x7(x7), .x6(x6), .x5(x5), .x4(x4), .x3(x3), .x2(x2), .x1(x1), .x0(x0),
 //        .y9(y9), .y8(y8), .y7(y7), .y6(y6), .y5(y5), .y4(y4), .y3(y3), .y2(y2), .y1(y1), .y0(y0));
+
+    
+    /* Time Down Count*/  
+    reg [7:0] clk_1hz_counter = 8'd0;
+    reg [7:0] time_show = 8'd10;
+    always @(posedge pixclk_60)
+        begin
+        if (rst)
+          begin
+            clk_1hz_counter = 8'd0;
+            time_show = 8'd10;
+          end
+        else
+          begin
+            clk_1hz_counter = clk_1hz_counter + 8'd1;
+            if (clk_1hz_counter == 8'd83)
+            begin
+                if(time_show > 8'd0)
+                begin
+                    time_show <= time_show - 8'd1;
+                end
+                clk_1hz_counter = 0;
+            end
+          end
+        end
+    
     
     /* LED*/
-    score_leds score_leds_0(.clk(clk),.pixclk_60(pixclk_60), .totaltime(totaltime), .rst(rst), .score(score), .a(a), .b(b), .c(c), .d(d), .e(e), .f(f), .g(g),.an(an));
+    score_leds score_leds_0(.clk(clk), .time_show(time_show), .rst(rst), .score(score), .a(a), .b(b), .c(c), .d(d), .e(e), .f(f), .g(g),.an(an));
 endmodule
