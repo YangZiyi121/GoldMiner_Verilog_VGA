@@ -24,7 +24,8 @@ module drawcon(
     input [10:0] hitted_x,
     input [9:0] hitted_y,
     input [7:0] W_rom_data, //for testing, comment this statement
-    input [7:0] W_rom_data_gold0, W_rom_data_gold1, W_rom_data_diamond0, W_rom_data_stone0,
+    input [7:0] W_rom_data_gold0, W_rom_data_gold1, W_rom_data_gold2, W_rom_data_gold3, W_rom_data_gold4,
+     W_rom_data_diamond5,W_rom_data_diamond6, W_rom_data_stone7, W_rom_data_stone8, W_rom_data_stone9,
     input [10:0] draw_x,
     input [9:0] draw_y,
     input [10:0] blkpos_x,
@@ -53,10 +54,6 @@ module drawcon(
             bg_r = W_rom_data[7:5]*2;
             bg_g = W_rom_data[4:2]*2;
             bg_b = W_rom_data[1:0]*4;
-  /*for testing, use the below ones*/
-//            bg_r <=  4'b0000;
-//            bg_g <=  4'b0000;
-//            bg_b <=  4'b0000;
         end
     end
 
@@ -91,19 +88,59 @@ module drawcon(
                gold_g = W_rom_data_gold1[4:2]*2;
                gold_b = W_rom_data_gold1[1:0]*4;
             end
-   else if (draw_x >= x2 & draw_x<= x2 + 11'd39 & draw_y>=y2 & draw_y<= y2 + 10'd39)
+   else if (draw_x >= x2 & draw_x<= x2 + 11'd59 & draw_y>=y2 & draw_y<= y2 + 10'd59)
             begin
-               gold_r = W_rom_data_diamond0[7:5]*2;
-               gold_g = W_rom_data_diamond0[4:2]*2;
-               gold_b = W_rom_data_diamond0[1:0]*4;
+               gold_r = W_rom_data_gold2[7:5]*2;
+               gold_g = W_rom_data_gold2[4:2]*2;
+               gold_b = W_rom_data_gold2[1:0]*4;
             end  
-   else if (draw_x >= x3 & draw_x<= x3 + 11'd79 & draw_y>=y3 & draw_y<= y3 + 10'd79)
+   else if (draw_x >= x3 & draw_x<= x3 + 11'd59 & draw_y>=y3 & draw_y<= y3 + 10'd59)
             begin
-               gold_r = W_rom_data_stone0[7:5]*2;
-               gold_g = W_rom_data_stone0[4:2]*2;
-               gold_b = W_rom_data_stone0[1:0]*4;
-            end                 
-   else begin
+               gold_r = W_rom_data_gold3[7:5]*2;
+               gold_g = W_rom_data_gold3[4:2]*2;
+               gold_b = W_rom_data_gold3[1:0]*4;
+            end    
+  else if (draw_x >= x4 & draw_x<= x4 + 11'd59 & draw_y>=y4 & draw_y<= y4 + 10'd59)
+            begin
+               gold_r = W_rom_data_gold4[7:5]*2;
+               gold_g = W_rom_data_gold4[4:2]*2;
+               gold_b = W_rom_data_gold4[1:0]*4;
+            end    
+  else if (draw_x >= x5 & draw_x<= x5 + 11'd39 & draw_y>=y5 & draw_y<= y5 + 10'd39)
+            begin
+               gold_r = W_rom_data_diamond5[7:5]*2;
+               gold_g = W_rom_data_diamond5[4:2]*2;
+               gold_b = W_rom_data_diamond5[1:0]*4;
+            end  
+    
+ else if (draw_x >= x6 & draw_x<= x6 + 11'd39 & draw_y>=y6 & draw_y<= y6 + 10'd39)
+            begin
+               gold_r = W_rom_data_diamond6[7:5]*2;
+               gold_g = W_rom_data_diamond6[4:2]*2;
+               gold_b = W_rom_data_diamond6[1:0]*4;
+            end   
+            
+ else if (draw_x >= x7 & draw_x<= x7 + 11'd79 & draw_y>=y7 & draw_y<= y7 + 10'd79)
+            begin
+               gold_r =  W_rom_data_stone7[7:5]*2;
+               gold_g =  W_rom_data_stone7[4:2]*2;
+               gold_b =  W_rom_data_stone7[1:0]*4;
+            end  
+                       
+ else if (draw_x >= x8 & draw_x<= x8 + 11'd79 & draw_y>=y8 & draw_y<= y8 + 10'd79)
+            begin
+               gold_r =  W_rom_data_stone8[7:5]*2;
+               gold_g =  W_rom_data_stone8[4:2]*2;
+               gold_b =  W_rom_data_stone8[1:0]*4;
+            end    
+             
+else if (draw_x >= x9 & draw_x<= x9 + 11'd79 & draw_y>=y9 & draw_y<= y9 + 10'd79)
+            begin
+               gold_r =  W_rom_data_stone9[7:5]*2;
+               gold_g =  W_rom_data_stone9[4:2]*2;
+               gold_b =  W_rom_data_stone9[1:0]*4;
+            end                                                                         
+else begin
             gold_r = 4'b0000;
             gold_g = 4'b0000;
             gold_b = 4'b0000;
