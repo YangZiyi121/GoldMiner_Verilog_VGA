@@ -43,9 +43,10 @@ module game_top(
     wire [12:0] R_rom_addr_stone7, R_rom_addr_stone8,  R_rom_addr_stone9 ;
     wire [11:0] R_rom_addr_gold0, R_rom_addr_gold1, R_rom_addr_gold2, R_rom_addr_gold3, R_rom_addr_gold4;
     wire [10:0] R_rom_addr_diamond5, R_rom_addr_diamond6;
+    wire [9:0] R_rom_addr_hook;
     wire [7:0] W_rom_data, W_rom_data_gold0, W_rom_data_gold1, W_rom_data_gold2, W_rom_data_gold3, W_rom_data_gold4,
      W_rom_data_diamond5,W_rom_data_diamond6,
-     W_rom_data_stone7, W_rom_data_stone8, W_rom_data_stone9;
+     W_rom_data_stone7, W_rom_data_stone8, W_rom_data_stone9,W_rom_data_hook;
     wire [10:0] x9,x8,x7,x6,x5,x4,x3,x2,x1,x0;
     wire [9:0] y9,y8,y7,y6,y5,y4,y3,y2,y1,y0;
     // LED: scores and time
@@ -210,6 +211,7 @@ module game_top(
     blk_mem_gen_3 rom_stone7 (.clka(clkout), .addra(R_rom_addr_stone7), .douta(W_rom_data_stone7));
     blk_mem_gen_3 rom_stone8 (.clka(clkout), .addra(R_rom_addr_stone8), .douta(W_rom_data_stone8));
     blk_mem_gen_3 rom_stone9 (.clka(clkout), .addra(R_rom_addr_stone9), .douta(W_rom_data_stone9));
+    blk_mem_gen_4 rom_hook (.clka(clkout), .addra(R_rom_addr_hook), .douta(W_rom_data_hook));
     /* vga-out instance */
     vga_out vgainst (.clk(clkout), .rst(rst), .draw_r(pix_r_or), .draw_g(pix_g_or), .draw_b(pix_b_or),                  
     .pix_r(pix_r), .pix_g(pix_g), .pix_b(pix_b), .hsync(hsync), .vsync(vsync), .curr_x(curr_x), .curr_y(curr_y)); 
@@ -226,6 +228,9 @@ module game_top(
     .x9(x9), .x8(x8), .x7(x7), .x6(x6), .x5(x5), .x4(x4), .x3(x3), .x2(x2), .x1(x1), .x0(x0),
     .y9(y9), .y8(y8), .y7(y7), .y6(y6), .y5(y5), .y4(y4), .y3(y3), .y2(y2), .y1(y1), .y0(y0));
     
+    hook_image hook_blk(.clk(clkout), .rst(rst), .curr_x(curr_x), .curr_y(curr_y), .blk_out_x(blk_out_x), .blk_out_y(blk_out_y), .addr(R_rom_addr_hook));
+    
+    
     /* get hook moving positions*/
     hook_moving moveHook(.state(state), .pixclk_60(pixclk_60), .blkpos_x_out(blk_out_x), .blkpos_y_out(blk_out_y));
     
@@ -234,7 +239,7 @@ module game_top(
     .W_rom_data(W_rom_data),
     .W_rom_data_gold0(W_rom_data_gold0),.W_rom_data_gold1(W_rom_data_gold1),.W_rom_data_gold2(W_rom_data_gold2),.W_rom_data_gold3(W_rom_data_gold3),.W_rom_data_gold4(W_rom_data_gold4),
     .W_rom_data_diamond5(W_rom_data_diamond5),.W_rom_data_diamond6(W_rom_data_diamond6),
-    .W_rom_data_stone7(W_rom_data_stone7), .W_rom_data_stone8(W_rom_data_stone8), .W_rom_data_stone9(W_rom_data_stone9),
+    .W_rom_data_stone7(W_rom_data_stone7), .W_rom_data_stone8(W_rom_data_stone8), .W_rom_data_stone9(W_rom_data_stone9),  .W_rom_data_hook(W_rom_data_hook),
     .blkpos_x(blk_out_x), .blkpos_y(blk_out_y),.draw_x(curr_x), .draw_y(curr_y), .draw_r(pix_r_or), .draw_g(pix_g_or), .draw_b(pix_b_or), 
     .x9(x9), .x8(x8), .x7(x7), .x6(x6), .x5(x5), .x4(x4), .x3(x3), .x2(x2), .x1(x1), .x0(x0),
     .y9(y9), .y8(y8), .y7(y7), .y6(y6), .y5(y5), .y4(y4), .y3(y3), .y2(y2), .y1(y1), .y0(y0));

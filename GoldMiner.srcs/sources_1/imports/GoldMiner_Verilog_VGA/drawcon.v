@@ -26,6 +26,7 @@ module drawcon(
     input [7:0] W_rom_data, //for testing, comment this statement
     input [7:0] W_rom_data_gold0, W_rom_data_gold1, W_rom_data_gold2, W_rom_data_gold3, W_rom_data_gold4,
      W_rom_data_diamond5,W_rom_data_diamond6, W_rom_data_stone7, W_rom_data_stone8, W_rom_data_stone9,
+     W_rom_data_hook,
     input [10:0] draw_x,
     input [9:0] draw_y,
     input [10:0] blkpos_x,
@@ -62,9 +63,18 @@ module drawcon(
     begin
     if (draw_x >=blkpos_x & draw_x<=blkpos_x+11'd32 & draw_y >=blkpos_y & draw_y<=blkpos_y+10'd32)
         begin
-            blk_r = 4'b1111;
-            blk_g = 4'b1111;
-            blk_b = 4'b1111;
+        if (W_rom_data_hook == 8'b11111111)
+        begin
+            blk_r = 4'b0000;
+            blk_g = 4'b0000;
+            blk_b = 4'b0000;
+        end
+        else 
+        begin
+            blk_r =  W_rom_data_hook[7:5]*2;
+            blk_g =  W_rom_data_hook[4:2]*2;
+            blk_b =  W_rom_data_hook[1:0]*4;
+        end
         end
     else 
         begin
@@ -152,11 +162,11 @@ else begin
 
     // reg signed [9:0] x_2, y_2
    parameter signed x_1 = 15'd635, y_1 = 15'd167; //position of miner, 15 bits to prevent overflow of ((y_0-y_1)*(x_2-x_1)) == ((x_0 - x_1)*(y_2-y_1))
-   parameter signed r = 15'd10; //rope width
+   parameter signed r = 15'd7; //rope width
    reg signed [15:0] x_2, y_2,x_0,y_0;
    always @*
    begin
-   x_2 = $signed({1'b0,blkpos_x+15'd16});
+   x_2 = $signed({1'b0,blkpos_x+15'd10});
    y_2 = $signed({1'b0,blkpos_y});
    x_0 = $signed({1'b0,draw_x});
    y_0 = $signed({1'b0,draw_y});
@@ -164,9 +174,9 @@ else begin
    begin
     if( ( (y_0-y_1)*(x_2-x_1) - (x_0 - x_1)*(y_2-y_1) )<=0  &  ( (y_0-y_1)*(x_2-x_1) - (x_0 - x_1-r)*(y_2-y_1) )>=0) // Between two lines
        begin
-            rope_r = 4'b0000;
-            rope_g = 4'b1111;
-            rope_b = 4'b1111;
+            rope_r = 4'b1001;
+            rope_g = 4'b1001;
+            rope_b = 4'b0110;
        end
        else
         begin
@@ -179,9 +189,9 @@ else begin
    begin
     if( ( (y_0-y_1)*(x_2-x_1) - (x_0 - x_1)*(y_2-y_1) )>=0  &  ( (y_0-y_1)*(x_2-x_1) - (x_0 - x_1 + r)*(y_2-y_1) )<=0) // Between two lines
        begin
-            rope_r = 4'b0000;
-            rope_g = 4'b1111;
-            rope_b = 4'b1111;
+            rope_r = 4'b1001;
+            rope_g = 4'b1001;
+            rope_b = 4'b0110;
        end
        else
         begin
