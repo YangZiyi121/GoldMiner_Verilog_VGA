@@ -39,12 +39,12 @@ module game_top(
     reg [1:0] counterColumn = 2'd0;
     reg [1:0] counterRow = 2'd0;
     reg clkdraw = 1'b0;
-    wire [16:0] R_rom_addr;
+    wire [16:0] R_rom_addr,R_rom_addr_end;
     wire [12:0] R_rom_addr_stone7, R_rom_addr_stone8,  R_rom_addr_stone9 ;
     wire [11:0] R_rom_addr_gold0, R_rom_addr_gold1, R_rom_addr_gold2, R_rom_addr_gold3, R_rom_addr_gold4;
     wire [10:0] R_rom_addr_diamond5, R_rom_addr_diamond6;
     wire [9:0] R_rom_addr_hook;
-    wire [7:0] W_rom_data, W_rom_data_gold0, W_rom_data_gold1, W_rom_data_gold2, W_rom_data_gold3, W_rom_data_gold4,
+    wire [7:0] W_rom_data,W_rom_data_end, W_rom_data_gold0, W_rom_data_gold1, W_rom_data_gold2, W_rom_data_gold3, W_rom_data_gold4,
      W_rom_data_diamond5,W_rom_data_diamond6,
      W_rom_data_stone7, W_rom_data_stone8, W_rom_data_stone9,W_rom_data_hook;
     wire [10:0] x9,x8,x7,x6,x5,x4,x3,x2,x1,x0;
@@ -53,6 +53,7 @@ module game_top(
     reg [7:0] score = 8'd0;
     //regs for hitting logic, updated one time during hitting, and keep the same between two hittings
     reg [3:0] hitted_gold;
+    reg done_game;
     
     /*Divide to 60HZ clk*/
     reg pixclk_60 = 1'b0;
@@ -201,6 +202,7 @@ module game_top(
     /* store background image instance */
     //for testing, comment this instance
     blk_mem_gen_0 rom (.clka(clkout), .addra(R_rom_addr), .douta(W_rom_data));
+    blk_mem_gen_5 rom_end (.clka(clkout), .addra(R_rom_addr_end), .douta(W_rom_data_end));
     blk_mem_gen_1 rom_gold0 (.clka(clkout), .addra(R_rom_addr_gold0), .douta(W_rom_data_gold0));
     blk_mem_gen_1 rom_gold1 (.clka(clkout), .addra(R_rom_addr_gold1), .douta(W_rom_data_gold1));
     blk_mem_gen_1 rom_gold2 (.clka(clkout), .addra(R_rom_addr_gold2), .douta(W_rom_data_gold2));
@@ -219,6 +221,7 @@ module game_top(
     /* get background figure instance*/
     //for testing, comment this instance
     bkg_figure bkg (.clk(clkout), .rst(rst), .curr_x(curr_x), .curr_y(curr_y), .addr(R_rom_addr));
+    bkg_figure_end bkg_end (.clk(clkout), .rst(rst), .curr_x(curr_x), .curr_y(curr_y), .addr(R_rom_addr_end));
     
     goldpositions gold_blk (.clk(clkout), .pixclk_60(pixclk_60), .rst(rst), .curr_x(curr_x), .curr_y(curr_y),
      .hitted_gold(hitted_gold), .blk_x(blk_out_x), .blk_y(blk_out_y), 
@@ -236,13 +239,14 @@ module game_top(
     
     /* drawcon instance*/ 
     drawcon drawEnvironment (.hitted_x(hitted_x), .hitted_y(hitted_y), 
-    .W_rom_data(W_rom_data),
+    .W_rom_data(W_rom_data), .W_rom_data_end(W_rom_data_end),
     .W_rom_data_gold0(W_rom_data_gold0),.W_rom_data_gold1(W_rom_data_gold1),.W_rom_data_gold2(W_rom_data_gold2),.W_rom_data_gold3(W_rom_data_gold3),.W_rom_data_gold4(W_rom_data_gold4),
     .W_rom_data_diamond5(W_rom_data_diamond5),.W_rom_data_diamond6(W_rom_data_diamond6),
     .W_rom_data_stone7(W_rom_data_stone7), .W_rom_data_stone8(W_rom_data_stone8), .W_rom_data_stone9(W_rom_data_stone9),  .W_rom_data_hook(W_rom_data_hook),
     .blkpos_x(blk_out_x), .blkpos_y(blk_out_y),.draw_x(curr_x), .draw_y(curr_y), .draw_r(pix_r_or), .draw_g(pix_g_or), .draw_b(pix_b_or), 
     .x9(x9), .x8(x8), .x7(x7), .x6(x6), .x5(x5), .x4(x4), .x3(x3), .x2(x2), .x1(x1), .x0(x0),
-    .y9(y9), .y8(y8), .y7(y7), .y6(y6), .y5(y5), .y4(y4), .y3(y3), .y2(y2), .y1(y1), .y0(y0));
+    .y9(y9), .y8(y8), .y7(y7), .y6(y6), .y5(y5), .y4(y4), .y3(y3), .y2(y2), .y1(y1), .y0(y0),
+    .done_game(done_game));
                                                                                                                                                    
     /* LED*/                                                                                                                                     
     score_leds score_leds_0(.clk(clk), .time_show(time_show), .rst(rst), .score(score), .a(a), .b(b), .c(c), .d(d), .e(e), .f(f), .g(g),.an(an));
@@ -250,13 +254,13 @@ module game_top(
     
     /* Time Down Count*/
     reg [7:0] clk_1hz_counter = 8'd0;
-    reg [7:0] time_show = 8'd10;
+    reg [7:0] time_show = 8'd50;
     always @(posedge pixclk_60)
         begin
         if (rst)
           begin
             clk_1hz_counter = 8'd0;
-            time_show = 8'd10;
+            time_show = 8'd50;
           end
         else
           begin
@@ -271,5 +275,10 @@ module game_top(
             end
           end
         end
- 
+     
+     always @* begin
+        if (time_show == 8'd0)  done_game = 1;
+        else done_game = 0;
+     end   
+
 endmodule

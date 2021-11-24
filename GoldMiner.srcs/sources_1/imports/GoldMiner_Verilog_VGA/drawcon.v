@@ -23,7 +23,7 @@
 module drawcon(
     input [10:0] hitted_x,
     input [9:0] hitted_y,
-    input [7:0] W_rom_data, //for testing, comment this statement
+    input [7:0] W_rom_data,W_rom_data_end, //for testing, comment this statement
     input [7:0] W_rom_data_gold0, W_rom_data_gold1, W_rom_data_gold2, W_rom_data_gold3, W_rom_data_gold4,
      W_rom_data_diamond5,W_rom_data_diamond6, W_rom_data_stone7, W_rom_data_stone8, W_rom_data_stone9,
      W_rom_data_hook,
@@ -33,11 +33,13 @@ module drawcon(
     input [9:0] blkpos_y,
     input [10:0] x9,x8,x7,x6,x5,x4,x3,x2,x1,x0,
     input [9:0] y9,y8,y7,y6,y5,y4,y3,y2,y1,y0,
+    input done_game,
     output reg [3:0] draw_r,
     output reg [3:0] draw_g,
     output reg [3:0] draw_b
     );
     reg [3:0] bg_r, bg_g, bg_b;
+    reg [3:0] bg_r_end, bg_g_end, bg_b_end;
     reg [3:0] blk_r, blk_g, blk_b;
     reg [3:0] gold_r , gold_g , gold_b;
     reg [3:0] rope_r, rope_g, rope_b;
@@ -57,7 +59,24 @@ module drawcon(
             bg_b = W_rom_data[1:0]*4;
         end
     end
-
+    //Draw border and end-background
+    always @ *
+    begin
+    if (done_game == 1) begin
+    if (draw_x < 11'd10 | draw_x > 11'd1269 | draw_y < 10'd10 | draw_y > 10'd789)
+        begin
+            bg_r_end =  4'b1111;
+            bg_g_end =  4'b1111;
+            bg_b_end =  4'b1111;
+        end
+    else 
+        begin
+            bg_r_end = W_rom_data_end[7:5]*2;
+            bg_g_end = W_rom_data_end[4:2]*2;
+            bg_b_end = W_rom_data_end[1:0]*4;
+        end
+    end
+    end
     //Draw Hook
     always @*
     begin
@@ -212,6 +231,13 @@ else begin
     //Assign Output
     always @*
     begin
+        if(done_game == 1) begin
+            draw_r = bg_r_end;
+            draw_g = bg_g_end;
+            draw_b = bg_b_end;
+        end 
+        
+        else begin   
         // draw gold
         if (gold_r > 4'b0000 | gold_g > 4'b0000 | gold_b > 4'b0000)
         begin
@@ -239,6 +265,7 @@ else begin
             draw_r = bg_r;
             draw_g = bg_g;
             draw_b = bg_b;
+        end
         end
     end
 
