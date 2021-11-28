@@ -95,7 +95,7 @@ module game_top(
         stretching:
                if((blk_out_x + 11'd32 >= 11'd1259) | (blk_out_x <= 11'd10) | (blk_out_y + 10'd32 >= 10'd779))
                     next_state = missing;
-               else if ((blk_out_x > x0) & (blk_out_x <= x0 + 11'd59) & (blk_out_y > y0) & (blk_out_y < y0 + 10'd59)|
+               else if (((blk_out_x > x0) & (blk_out_x <= x0 + 11'd59) & (blk_out_y > y0) & (blk_out_y < y0 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x0) & (blk_out_x + 11'd32 < x0 + 11'd59)  & (blk_out_y >= y0) & (blk_out_y < y0 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x0) & (blk_out_x + 11'd32 < x0 + 11'd59) & (blk_out_y  + 11'd32 >= y0) & (blk_out_y  + 11'd32 < y0 + 10'd59))|
                       ((blk_out_x > x0) & (blk_out_x <= x0 + 11'd59) & (blk_out_y  + 11'd32 >= y0) & (blk_out_y  + 11'd32 < y0 + 10'd59)))
@@ -105,7 +105,7 @@ module game_top(
                     hitted_gold = 4'b0000;
                     score = score + 8'd6;
                end
-               else if ((blk_out_x > x1) & (blk_out_x <= x1 + 11'd59) & (blk_out_y > y1) & (blk_out_y < y1 + 10'd59)|
+               else if (((blk_out_x > x1) & (blk_out_x <= x1 + 11'd59) & (blk_out_y > y1) & (blk_out_y < y1 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x1) & (blk_out_x + 11'd32 < x1 + 11'd59)  & (blk_out_y >= y1) & (blk_out_y < y1 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x1) & (blk_out_x + 11'd32 < x1 + 11'd59) & (blk_out_y  + 11'd32 >= y1) & (blk_out_y  + 11'd32 < y1 + 10'd59))|
                       ((blk_out_x > x1) & (blk_out_x <= x1 + 11'd59) & (blk_out_y  + 11'd32 >= y1) & (blk_out_y  + 11'd32 < y1 + 10'd59)))
@@ -114,7 +114,7 @@ module game_top(
                     hitted_gold = 4'b0001;
                     score = score + 8'd6;
                end
-               else if ((blk_out_x > x2) & (blk_out_x <= x2 + 11'd59) & (blk_out_y > y2) & (blk_out_y < y2 + 10'd59)|
+               else if (((blk_out_x > x2) & (blk_out_x <= x2 + 11'd59) & (blk_out_y > y2) & (blk_out_y < y2 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x2) & (blk_out_x + 11'd32 < x2 + 11'd59)  & (blk_out_y >= y2) & (blk_out_y < y2 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x2) & (blk_out_x + 11'd32 < x2 + 11'd59) & (blk_out_y  + 11'd32 >= y2) & (blk_out_y  + 11'd32 < y2 + 10'd59))|
                       ((blk_out_x > x2) & (blk_out_x <= x2 + 11'd59) & (blk_out_y  + 11'd32 >= y2) & (blk_out_y  + 11'd32 < y2 + 10'd59)))
@@ -123,7 +123,7 @@ module game_top(
                     hitted_gold = 4'b0010;
                     score = score + 8'd6;
                end
-               else if ((blk_out_x > x3) & (blk_out_x <= x3 + 11'd59) & (blk_out_y > y3) & (blk_out_y < y3 + 10'd59)|
+               else if (((blk_out_x > x3) & (blk_out_x <= x3 + 11'd59) & (blk_out_y > y3) & (blk_out_y < y3 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x3) & (blk_out_x + 11'd32 < x3 + 11'd59)  & (blk_out_y >= y3) & (blk_out_y < y3 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x3) & (blk_out_x + 11'd32 < x3 + 11'd59) & (blk_out_y  + 11'd32 >= y3) & (blk_out_y  + 11'd32 < y3 + 10'd59))|
                       ((blk_out_x > x3) & (blk_out_x <= x3 + 11'd59) & (blk_out_y  + 11'd32 >= y3) & (blk_out_y  + 11'd32 < y3 + 10'd59)))
@@ -132,7 +132,7 @@ module game_top(
                     hitted_gold = 4'b0011;
                     score =score + 8'd6;
                end
-               else if ((blk_out_x > x4) & (blk_out_x <= x4 + 11'd59) & (blk_out_y > y4) & (blk_out_y < y4 + 10'd59)|
+               else if (((blk_out_x > x4) & (blk_out_x <= x4 + 11'd59) & (blk_out_y > y4) & (blk_out_y < y4 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x4) & (blk_out_x + 11'd32 < x4 + 11'd59)  & (blk_out_y >= y4) & (blk_out_y < y4 + 10'd59))|
                       ((blk_out_x + 11'd32 >= x4) & (blk_out_x + 11'd32 < x4 + 11'd59) & (blk_out_y  + 11'd32 >= y4) & (blk_out_y  + 11'd32 < y4 + 10'd59))|
                       ((blk_out_x > x4) & (blk_out_x <= x4 + 11'd59) & (blk_out_y  + 11'd32 >= y4) & (blk_out_y  + 11'd32 < y4 + 10'd59)))
@@ -141,7 +141,7 @@ module game_top(
                     hitted_gold = 4'b0100;
                     score =score + 8'd6;
                end
-               else if ((blk_out_x > x5) & (blk_out_x <= x5 + 11'd39) & (blk_out_y > y5) & (blk_out_y < y5 + 10'd39)|
+               else if (((blk_out_x > x5) & (blk_out_x <= x5 + 11'd39) & (blk_out_y > y5) & (blk_out_y < y5 + 10'd39))|
                       ((blk_out_x + 11'd32 >= x5) & (blk_out_x + 11'd32 < x5 + 11'd39)  & (blk_out_y >= y5) & (blk_out_y < y5 + 10'd39))|
                       ((blk_out_x + 11'd32 >= x5) & (blk_out_x + 11'd32 < x5 + 11'd39) & (blk_out_y  + 11'd32 >= y5) & (blk_out_y  + 11'd32 < y5 + 10'd39))|
                       ((blk_out_x > x5) & (blk_out_x <= x5 + 11'd39) & (blk_out_y  + 11'd32 >= y5) & (blk_out_y  + 11'd32 < y5 + 10'd39)))
@@ -150,7 +150,7 @@ module game_top(
                     hitted_gold = 4'b0101;
                     score =score + 8'd10;
                end
-               else if ((blk_out_x > x6) & (blk_out_x <= x6 + 11'd39) & (blk_out_y > y6) & (blk_out_y < y6 + 10'd39)|
+               else if (((blk_out_x > x6) & (blk_out_x <= x6 + 11'd39) & (blk_out_y > y6) & (blk_out_y < y6 + 10'd39))|
                       ((blk_out_x + 11'd32 >= x6) & (blk_out_x + 11'd32 < x6 + 11'd39)  & (blk_out_y >= y6) & (blk_out_y < y6 + 10'd39))|
                       ((blk_out_x + 11'd32 >= x6) & (blk_out_x + 11'd32 < x6 + 11'd39) & (blk_out_y  + 11'd32 >= y6) & (blk_out_y  + 11'd32 < y6 + 10'd39))|
                       ((blk_out_x > x6) & (blk_out_x <= x6 + 11'd39) & (blk_out_y  + 11'd32 >= y6) & (blk_out_y  + 11'd32 < y6 + 10'd39)))
@@ -159,7 +159,7 @@ module game_top(
                     hitted_gold = 4'b0110;
                     score =score + 8'd10;
                end
-               else if ((blk_out_x > x7) & (blk_out_x <= x7 + 11'd79) & (blk_out_y > y7) & (blk_out_y < y7 + 10'd79)|
+               else if (((blk_out_x > x7) & (blk_out_x <= x7 + 11'd79) & (blk_out_y > y7) & (blk_out_y < y7 + 10'd79))|
                       ((blk_out_x + 11'd32 >= x7) & (blk_out_x + 11'd32 < x7 + 11'd79)  & (blk_out_y >= y7) & (blk_out_y < y7 + 10'd79))|
                       ((blk_out_x + 11'd32 >= x7) & (blk_out_x + 11'd32 < x7 + 11'd79) & (blk_out_y  + 11'd32 >= y7) & (blk_out_y  + 11'd32 < y7 + 10'd79))|
                       ((blk_out_x > x7) & (blk_out_x <= x7 + 11'd79) & (blk_out_y  + 11'd32 >= y7) & (blk_out_y  + 11'd32 < y7 + 10'd79)))
@@ -168,7 +168,7 @@ module game_top(
                     hitted_gold = 4'b0111;
                     score =score + 8'd0;
                end
-               else if ((blk_out_x > x8) & (blk_out_x <= x8 + 11'd79) & (blk_out_y > y8) & (blk_out_y < y8 + 10'd79)|
+               else if (((blk_out_x > x8) & (blk_out_x <= x8 + 11'd79) & (blk_out_y > y8) & (blk_out_y < y8 + 10'd79))|
                       ((blk_out_x + 11'd32 >= x8) & (blk_out_x + 11'd32 < x8 + 11'd79)  & (blk_out_y >= y8) & (blk_out_y < y8 + 10'd79))|
                       ((blk_out_x + 11'd32 >= x8) & (blk_out_x + 11'd32 < x8 + 11'd79) & (blk_out_y  + 11'd32 >= y8) & (blk_out_y  + 11'd32 < y8 + 10'd79))|
                       ((blk_out_x > x8) & (blk_out_x <= x8 + 11'd79) & (blk_out_y  + 11'd32 >= y8) & (blk_out_y  + 11'd32 < y8 + 10'd79)))
@@ -177,7 +177,7 @@ module game_top(
                     hitted_gold = 4'b1000;
                     score =score + 8'd0;
                end
-               else if ((blk_out_x > x9) & (blk_out_x <= x9 + 11'd79) & (blk_out_y > y9) & (blk_out_y < y9 + 10'd79)|
+               else if (((blk_out_x > x9) & (blk_out_x <= x9 + 11'd79) & (blk_out_y > y9) & (blk_out_y < y9 + 10'd79))|
                       ((blk_out_x + 11'd32 >= x9) & (blk_out_x + 11'd32 < x9 + 11'd79)  & (blk_out_y >= y9) & (blk_out_y < y9 + 10'd79))|
                       ((blk_out_x + 11'd32 >= x9) & (blk_out_x + 11'd32 < x9 + 11'd79) & (blk_out_y  + 11'd32 >= y9) & (blk_out_y  + 11'd32 < y9 + 10'd79))|
                       ((blk_out_x > x9) & (blk_out_x <= x9 + 11'd79) & (blk_out_y  + 11'd32 >= y9) & (blk_out_y  + 11'd32 < y9 + 10'd79)))
@@ -235,7 +235,7 @@ module game_top(
     
     
     /* get hook moving positions*/
-    hook_moving moveHook(.state(state), .pixclk_60(pixclk_60), .blkpos_x_out(blk_out_x), .blkpos_y_out(blk_out_y));
+    hook_moving moveHook(.rst(rst), .state(state), .pixclk_60(pixclk_60), .blkpos_x_out(blk_out_x), .blkpos_y_out(blk_out_y));
     
     /* drawcon instance*/ 
     drawcon drawEnvironment (.hitted_x(hitted_x), .hitted_y(hitted_y), 
@@ -254,13 +254,13 @@ module game_top(
     
     /* Time Down Count*/
     reg [7:0] clk_1hz_counter = 8'd0;
-    reg [7:0] time_show = 8'd50;
+    reg [7:0] time_show = 8'd90;
     always @(posedge pixclk_60)
         begin
         if (rst)
           begin
             clk_1hz_counter = 8'd0;
-            time_show = 8'd50;
+            time_show = 8'd90;
           end
         else
           begin

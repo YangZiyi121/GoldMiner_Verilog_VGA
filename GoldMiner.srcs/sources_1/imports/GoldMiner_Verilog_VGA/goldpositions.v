@@ -81,7 +81,7 @@ module goldpositions(
                 x8 = x8_r;  y8 = y8_r;
                 x9 = x9_r;  y9 = y9_r;
                 state_0 = 2'b00;
-                state_1 = 2'b00;
+                state_1 = 2'b10; //disappeared
                 state_2 = 2'b00;
                 state_3 = 2'b00;
                 state_4 = 2'b00;
@@ -255,43 +255,43 @@ module goldpositions(
      
  
     always @(posedge clk) begin
-    if (rst==1 | (curr_x == x0 & curr_y == y0))   addr0 <= 12'd0;
+    if (rst==1 | (curr_x == x0 && curr_y == y0))   addr0 <= 12'd0;
     else begin
         if (addr0 == 12'd3599)  addr0 = 12'd0;
-        else if(curr_x >= x0 & curr_x <= x0 + 59 & curr_y >= y0 & curr_y <= y0 + 59)
+        else if(curr_x >= x0 && curr_x <= x0 + 59 && curr_y >= y0 && curr_y <= y0 + 59)
             addr0 = addr0 + 12'd1;
     end
     end
     
     always @(posedge clk) begin
-    if (rst==1|(curr_x == x1 & curr_y == y1))   addr1 <= 12'd0;
+    if (rst==1|(curr_x == x1 && curr_y == y1))   addr1 <= 12'd0;
     else begin
         if (addr1 == 12'd3599)  addr1 = 12'd0;
-        else if(curr_x >= x1 & curr_x <= x1 + 59 & curr_y >= y1 & curr_y <= y1 + 59)
+        else if(curr_x >= x1 && curr_x <= x1 + 59 && curr_y >= y1 && curr_y <= y1 + 59)
             addr1 = addr1 + 12'd1;
     end
     end
     
     always @(posedge clk) begin
-    if (rst==1|(curr_x == x2 & curr_y == y2))   addr2 <= 12'd0;
+    if (rst==1|(curr_x == x2 && curr_y == y2))   addr2 <= 12'd0;
     else begin
-        if (addr1 == 12'd3599)  addr2 = 12'd0;
+        if (addr2 == 12'd3599)  addr2 = 12'd0;
         else if(curr_x >= x2 & curr_x <= x2 + 59 & curr_y >= y2 & curr_y <= y2 + 59)
             addr2 = addr2 + 12'd1;
     end
     end
     
     always @(posedge clk) begin
-    if (rst==1|(curr_x == x3 & curr_y == y3))   addr3 <= 12'd0;
+    if (rst==1|(curr_x == x3 && curr_y == y3))   addr3 <= 12'd0;
     else begin
-        if (addr1 == 12'd3599)  addr3 = 12'd0;
+        if (addr3 == 12'd3599)  addr3 = 12'd0;
         else if(curr_x >= x3 & curr_x <= x3 + 59 & curr_y >= y3 & curr_y <= y3 + 59)
             addr3 = addr3 + 12'd1;
     end
     end
     
     always @(posedge clk) begin
-    if (rst==1|(curr_x == x4 & curr_y == y4))   addr4 <= 12'd0;
+    if (rst==1|(curr_x == x4 && curr_y == y4 ))   addr4 <= 12'd0;
     else begin
         if (addr4 == 12'd3599)  addr4 = 12'd0;
         else if(curr_x >= x4 & curr_x <= x4 + 59 & curr_y >= y4 & curr_y <= y4 + 59)
@@ -300,7 +300,7 @@ module goldpositions(
     end
     
     always @(posedge clk) begin
-    if (rst==1|(curr_x == x5 & curr_y == y5))   addr5 <= 11'd0;
+    if (rst==1|(curr_x == x5 && curr_y == y5 ))   addr5 <= 11'd0;
     else begin
         if (addr5 == 11'd1599)  addr5 = 11'd0;
         else if(curr_x >= x5 & curr_x <= x5 + 39 & curr_y >= y5 & curr_y <= y5 + 39)
@@ -309,7 +309,7 @@ module goldpositions(
     end
     
     always @(posedge clk) begin
-    if (rst==1|(curr_x == x6 & curr_y == y6))   addr6 <= 11'd0;
+    if (rst==1|(curr_x == x6 && curr_y == y6 ))   addr6 <= 11'd0;
     else begin
         if (addr6 == 11'd1599)  addr6 = 11'd0;
         else if(curr_x >= x6 & curr_x <= x6 + 39 & curr_y >= y6 & curr_y <= y6 + 39)
@@ -318,7 +318,7 @@ module goldpositions(
     end
     
     always @(posedge clk) begin
-    if (rst==1|(curr_x == x7 & curr_y == y7))   addr7 <= 13'd0;
+    if (rst==1|(curr_x == x7 && curr_y == y7 ))   addr7 <= 13'd0;
     else begin
         if (addr7 == 13'd6399)  addr7 = 13'd0;
         else if(curr_x >= x7 & curr_x <= x7 + 79 & curr_y >= y7 & curr_y <= y7 + 79)
@@ -327,7 +327,7 @@ module goldpositions(
     end
     
     always @(posedge clk) begin
-    if (rst==1|(curr_x == x8 & curr_y == y8))   addr8 <= 13'd0;
+    if (rst==1|(curr_x == x8 && curr_y == y8))   addr8 <= 13'd0;
     else begin
         if (addr8 == 13'd6399)  addr8 = 13'd0;
         else if(curr_x >= x8 & curr_x <= x8 + 79 & curr_y >= y8 & curr_y <= y8 + 79)
@@ -336,7 +336,7 @@ module goldpositions(
     end
     
     always @(posedge clk) begin
-    if (rst==1|(curr_x == x9 & curr_y == y9))   addr9 <= 13'd0;
+    if (rst==1|(curr_x == x9 && curr_y == y9))   addr9 <= 13'd0;
     else begin
         if (addr9 == 13'd6399)  addr9 = 13'd0;
         else if(curr_x >= x9 & curr_x <= x9 + 79 & curr_y >= y9 & curr_y <= y9 + 79)

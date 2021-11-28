@@ -21,6 +21,7 @@
 
 
 module hook_moving(
+    input rst,
     input [1:0] state,
     input pixclk_60,
     output [10:0] blkpos_x_out,
@@ -47,6 +48,13 @@ module hook_moving(
     reg [15:0] x_2, y_2,x_0, y_0; //Position for blok
    
     always @(posedge pixclk_60)
+    begin
+    if (rst) begin
+    blkpos_x <= center_x;
+    blkpos_y <= center_y;
+    x_move_right <= 1'b1;
+    end
+    else
     begin
     //Waving State
     if(state == waving)
@@ -279,7 +287,7 @@ module hook_moving(
             blkpos_x =x_0;
             blkpos_y =y_0; 
     end
-        
+    end
     end
     
 endmodule
