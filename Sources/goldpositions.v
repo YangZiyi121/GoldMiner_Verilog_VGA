@@ -4,13 +4,13 @@
 // Engineer: 
 // 
 // Create Date: 11/06/2021 07:51:25 PM
-// Design Name: 
+// Design Name: GoldMiner
 // Module Name: goldpositions
-// Project Name: 
+// Project Name: GoldMiner
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+// Block generates gold positions and the current output addresses for ten ROM instances
 // Dependencies: 
 // 
 // Revision:
@@ -36,24 +36,24 @@ module goldpositions(
     output reg [11:0] addr0, addr1, addr2, addr3, addr4,
     output reg [10:0] addr5, addr6
     );
-    parameter waving = 2'b00, stretching = 2'b01, hitting = 2'b10, missing = 2'b11;
-    parameter init = 3'b000, hitted = 3'b001, disappear = 3'b010;
-    parameter move = 2'b01, disappeared = 2'b10;
-    /*goldPosition step*/
-//    reg [6:0] x_step = 7'd126;
-//    reg [6:0] y_step = 7'd108;
+    parameter waving = 2'b00, stretching = 2'b01, hitting = 2'b10, missing = 2'b11; //four states for the game
+    parameter init = 3'b000, hitted = 3'b001, disappear = 3'b010;  // three states for the gold
+    parameter move = 2'b01, disappeared = 2'b10;   // for gold to move with the hook and disppear
+
     reg [2:0] nstGoldState;
     reg [2:0] goldState;
-    reg  state_0 , state_1 , state_2, state_3, state_4, state_5, state_6, state_7, state_8, state_9;
+    reg  state_0 , state_1 , state_2, state_3, state_4, state_5, state_6, state_7, state_8, state_9; //state of each gold
     
     /*generate random value*/
     wire [10:0] x9_r,x8_r,x7_r,x6_r,x5_r,x4_r,x3_r,x2_r,x1_r,x0_r;
     wire [9:0] y9_r,y8_r,y7_r,y6_r,y5_r,y4_r,y3_r,y2_r,y1_r,y0_r;
     
-    
+    /*initial positions for golds*/
     CasePositions getPositions(.i_Clk(clk), .rst(rst),
     .x9(x9_r), .x8(x8_r), .x7(x7_r), .x6(x6_r), .x5(x5_r), .x4(x4_r), .x3(x3_r), .x2(x2_r), .x1(x1_r), .x0(x0_r),
     .y9(y9_r), .y8(y8_r), .y7(y7_r), .y6(y6_r), .y5(y5_r), .y4(y4_r), .y3(y3_r), .y2(y2_r), .y1(y1_r), .y0(y0_r));
+
+
     /*state machine for gold*/
     always @(posedge pixclk_60)
     begin 
@@ -81,7 +81,7 @@ module goldpositions(
                 x8 = x8_r;  y8 = y8_r;
                 x9 = x9_r;  y9 = y9_r;
                 state_0 = 2'b00;
-                state_1 = 2'b10; //disappeared
+                state_1 = 2'b10; 
                 state_2 = 2'b00;
                 state_3 = 2'b00;
                 state_4 = 2'b00;
@@ -253,7 +253,7 @@ module goldpositions(
         endcase   
     end 
      
- 
+    /*address generation block for golds*/
     always @(posedge clk) begin
     if (rst==1 | (curr_x == x0 && curr_y == y0))   addr0 <= 12'd0;
     else begin

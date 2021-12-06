@@ -1,16 +1,16 @@
-`timescale 1ns / 1ps
+timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
 // 
 // Create Date: 11/01/2021 10:41:32 AM
-// Design Name: 
+// Design Name: GoldMiner
 // Module Name: drawcon
-// Project Name: 
+// Project Name: GoldMiner
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+// This module output the RGB data to be drawn on current drawing pixel
 // Dependencies: 
 // 
 // Revision:
@@ -23,7 +23,7 @@
 module drawcon(
     input [10:0] hitted_x,
     input [9:0] hitted_y,
-    input [7:0] W_rom_data,W_rom_data_end, //for testing, comment this statement
+    input [7:0] W_rom_data,W_rom_data_end, 
     input [7:0] W_rom_data_gold0, W_rom_data_gold1, W_rom_data_gold2, W_rom_data_gold3, W_rom_data_gold4,
      W_rom_data_diamond5,W_rom_data_diamond6, W_rom_data_stone7, W_rom_data_stone8, W_rom_data_stone9,
      W_rom_data_hook,
@@ -268,6 +268,4 @@ else begin
         end
         end
     end
-
-    
 endmodule
