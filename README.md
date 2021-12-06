@@ -1,3 +1,2 @@
-# GoldMiner_Verilog_VGA
-#### Ziyi Yang & Jihao Xin
-CS294O
+# KAUST CS294O Class Projet - Gold Miner
+This is the 
