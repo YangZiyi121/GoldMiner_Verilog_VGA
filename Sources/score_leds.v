@@ -4,13 +4,13 @@
 // Engineer: 
 // 
 // Create Date: 11/17/2021 08:01:02 PM
-// Design Name: 
+// Design Name: GoldMiner
 // Module Name: score_leds
-// Project Name: 
+// Project Name: GoldMiner
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+// This module calculates digit to show on each position
 // Dependencies: 
 // 
 // Revision:

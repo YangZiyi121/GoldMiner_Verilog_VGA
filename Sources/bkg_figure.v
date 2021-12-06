@@ -4,13 +4,13 @@
 // Engineer: 
 // 
 // Create Date: 11/06/2021 03:23:44 PM
-// Design Name: 
+// Design Name: GoldMiner
 // Module Name: bkg_figure
-// Project Name: 
+// Project Name: GoldMiner
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+// This module generates the adress of ROM stored background figure
 // Dependencies: 
 // 
 // Revision:
@@ -55,29 +55,28 @@ module bkg_figure(
     end
 
 
-    /* show the whole image by using address*/
-	always @(posedge clk) begin
-		if(rst)
-			R_rom_addr <= 17'd0;
-		else begin
-		     if(curr_x >= 11'd10 && curr_x<= 11'd1269  && curr_y>=10'd10 && curr_y <= 10'd789) begin
-		        if(counterRow == 1) begin
-		          if(counterColumn == 1) R_rom_addr = ((curr_y-10)/3 * 420)+ (curr_x - 10)/3;
-		          else if (counterColumn == 2) R_rom_addr = ((curr_y-10)/3 * 420) + ((curr_x - 10) -1)/3;
-		          else if (counterColumn == 0) R_rom_addr = ((curr_y-10)/3 * 420)+ ((curr_x - 10) -2)/3;
-		        end
-		        else if (counterRow == 2) begin
-		          if(counterColumn == 1) R_rom_addr = ((curr_y - 1-10)/3 * 420) + (curr_x - 10)/3;
-		          else if (counterColumn == 2) R_rom_addr = ((curr_y - 1-10)/3 * 420) + ((curr_x - 10) -1)/3;
-		          else if (counterColumn == 0) R_rom_addr = ((curr_y - 1-10)/3 * 420) + ((curr_x - 10) -2)/3;
-		        end
-		        else if (counterRow == 0) begin
-		          if(counterColumn == 1) R_rom_addr = ((curr_y - 2-10)/3 * 420 ) + (curr_x - 10)/3;
-		          else if (counterColumn == 2) R_rom_addr = ((curr_y - 2-10)/3 * 420 ) + ((curr_x - 10) -1)/3;
-		          else if (counterColumn == 0) R_rom_addr = ((curr_y - 2-10)/3 * 420 ) + ((curr_x - 10) -2)/3;
-		        end
-		     end
-		  end
-	end
-    
+  /* show the whole image by using address*/
+ always @(posedge clk) begin
+  if(rst)
+   R_rom_addr <= 17'd0;
+  else begin
+       if(curr_x >= 11'd10 && curr_x<= 11'd1269  && curr_y>=10'd10 && curr_y <= 10'd789) begin
+          if(counterRow == 1) begin
+            if(counterColumn == 1) R_rom_addr = ((curr_y-10)/3 * 420)+ (curr_x - 10)/3;
+            else if (counterColumn == 2) R_rom_addr = ((curr_y-10)/3 * 420) + ((curr_x - 10) -1)/3;
+            else if (counterColumn == 0) R_rom_addr = ((curr_y-10)/3 * 420)+ ((curr_x - 10) -2)/3;
+          end
+          else if (counterRow == 2) begin
+            if(counterColumn == 1) R_rom_addr = ((curr_y - 1-10)/3 * 420) + (curr_x - 10)/3;
+            else if (counterColumn == 2) R_rom_addr = ((curr_y - 1-10)/3 * 420) + ((curr_x - 10) -1)/3;
+            else if (counterColumn == 0) R_rom_addr = ((curr_y - 1-10)/3 * 420) + ((curr_x - 10) -2)/3;
+          end
+          else if (counterRow == 0) begin
+            if(counterColumn == 1) R_rom_addr = ((curr_y - 2-10)/3 * 420 ) + (curr_x - 10)/3;
+            else if (counterColumn == 2) R_rom_addr = ((curr_y - 2-10)/3 * 420 ) + ((curr_x - 10) -1)/3;
+            else if (counterColumn == 0) R_rom_addr = ((curr_y - 2-10)/3 * 420 ) + ((curr_x - 10) -2)/3;
+          end
+       end
+    end
+ end
 endmodule

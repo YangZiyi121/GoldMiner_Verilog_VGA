@@ -6,13 +6,13 @@
 // Engineer: 
 // 
 // Create Date: 11/17/2021 09:57:00 PM
-// Design Name: 
+// Design Name: GoldMiner
 // Module Name: multidigit
-// Project Name: 
+// Project Name: GoldMiner
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+// This module syncs the digit with the clock
 // Dependencies: 
 // 
 // Revision:
@@ -30,10 +30,8 @@ module multidigit(
     );
     
     wire led_clk;
-
     reg [3:0] dig_sel;
     reg [2:0] led_index = 3'd0;
-
     reg [28:0] clk_count = 11'd0;
     
     always @(posedge clk)

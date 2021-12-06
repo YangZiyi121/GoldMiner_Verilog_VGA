@@ -6,13 +6,13 @@
 // Engineer: 
 // 
 // Create Date: 11/17/2021 07:52:25 PM
-// Design Name: 
+// Design Name: GoldMiner
 // Module Name: led
-// Project Name: 
+// Project Name: GoldMiner
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+// This module maps digits to led signals
 // Dependencies: 
 // 
 // Revision:

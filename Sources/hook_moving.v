@@ -4,13 +4,13 @@
 // Engineer: 
 // 
 // Create Date: 11/06/2021 02:22:27 PM
-// Design Name: 
+// Design Name: GoldMiner
 // Module Name: hook_moving
-// Project Name: 
+// Project Name: GoldMiner
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+// This block outputs the position of the hook that moves in semicircle
 // Dependencies: 
 // 
 // Revision:

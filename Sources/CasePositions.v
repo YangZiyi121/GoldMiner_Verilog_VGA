@@ -4,13 +4,13 @@
 // Engineer: 
 // 
 // Create Date: 11/19/2021 10:51:44 AM
-// Design Name: 
+// Design Name: GoldMiner
 // Module Name: CasePositions
-// Project Name: 
+// Project Name: GoldMiner
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+// intial random positions for golds
 // Dependencies: 
 // 
 // Revision:
@@ -38,6 +38,7 @@ module CasePositions(
     reg done = 0;
     
     assign counterWire = counter;
+
     /*instance for LFSR*/
     LFSR randomPosition(.i_Clk(i_Clk), .i_Enable(1'b1), .i_Seed_DV(1'b0), .i_Seed_Data(4'b0111), 
     .o_LFSR_Data(data), .o_LFSR_Done(w_LFSR_Done));

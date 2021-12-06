@@ -3,9 +3,9 @@
 // Engineer: 
 // 
 // Create Date: 10/29/2021 11:43:20 AM
-// Design Name: 
+// Design Name: GoldMiner
 // Module Name: vga_out
-// Project Name: 
+// Project Name: GoldMiner
 // Target Devices: 
 // Tool Versions: 
 // Description: 
@@ -89,7 +89,4 @@ module vga_out(
     assign pix_g = ((hcount<=11'd1615) & (hcount >= 11'd336) & (vcount>=10'd27) &(vcount <= 10'd826))? draw_g: 4'd0000;
     assign pix_b = ((hcount<=11'd1615) & (hcount >= 11'd336) & (vcount>=10'd27) &(vcount <= 10'd826))? draw_b: 4'd0000;
 
-//     assign pix_r =  4'd0;
-//     assign pix_g =  4'd0;
-//     assign pix_b =  4'd0;
 endmodule
